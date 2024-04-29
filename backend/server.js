@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
-import { connectDB } from "./bd/connectMongoDB.js";
+import { connectDB } from "./db/connectMongoDB.js";
 import { errorHandlerMiddleware } from "./errors/errorHandler.js";
 dotenv.config(); // dotenv.config() for to read .env file
 
@@ -20,7 +20,7 @@ app.use(errorHandlerMiddleware);
 app.get("/", (req, res) => {
   res.send("Hello, Backend Server is working...");
 });
-app.use("/api/user/", authRouter);
+app.use("/api/auth/", authRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening on port http://localhost:${port}`);
