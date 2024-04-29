@@ -75,7 +75,7 @@ export const Signup = async (req, res) => {
       console.log("User Created Successfully", userObj);
       return res.status(201).json(userObj);
     } else {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "Invalid user data",
       });
     }
@@ -118,7 +118,7 @@ export const Login = async (req, res) => {
     );
     // If user or password is incorrect
     if (!user || !isPasswordCorrect) {
-      return res.status(400).json({
+      return res.status(401).json({
         message: "Invalid Username or Password",
       });
     } else {
@@ -127,17 +127,14 @@ export const Login = async (req, res) => {
 
       // Send response with logged in user data
       res.status(200).json({
-        message: "Login Successfull",
-        user: {
-          _id: user._id,
-          username: user.username,
-          fullname: user.fullname,
-          email: user.email,
-          followers: user.followers,
-          following: user.following,
-          profileImg: user.profileImg,
-          coverImg: user.coverImg,
-        },
+        _id: user._id,
+        username: user.username,
+        fullname: user.fullname,
+        email: user.email,
+        followers: user.followers,
+        following: user.following,
+        profileImg: user.profileImg,
+        coverImg: user.coverImg,
       });
     }
   } catch (error) {
@@ -166,6 +163,18 @@ export const Logout = (req, res) => {
     console.log("Error in Logout Controller", error.message);
     res.status(500).json({
       message: `Internal Server Error in Logout Controller: ${error.message}`,
+    });
+  }
+};
+
+export const GetMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    res.status(200).json(user);
+  } catch (error) {
+    console.log("Error in GetMe Controller", error.message);
+    res.status(500).json({
+      message: `Internal Server Error in GetMe Controller: ${error.message}`,
     });
   }
 };

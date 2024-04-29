@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import { connectDB } from "./bd/connectMongoDB.js";
 import { errorHandlerMiddleware } from "./errors/errorHandler.js";
@@ -11,7 +12,9 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(errorHandlerMiddleware);
 
 app.get("/", (req, res) => {
