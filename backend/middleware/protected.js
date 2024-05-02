@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model.js";
+import User from "../models/user.model.js";
 
 export const protectedRouteMiddleware = async (req, res, next) => {
-  //get cookie by name
+  //get cookies by name
   const token = req.cookies.jwt;
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: Token not found" });
